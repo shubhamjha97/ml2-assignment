@@ -1,10 +1,14 @@
 #include <bits/stdc++.h>
-#include <Eigen/Dense>
+#include "Eigen/Dense"
+#include <string.h>
+
+#define float long double
 using namespace std;
 
+using Eigen::MatrixXd;
 
 struct params{
-	vector<float> w;
+	vector<vector<float> >w;
 	float w0;
 };
 
@@ -14,116 +18,23 @@ struct data_structure{
 
 };
 
-void getCofactor(int A[N][N], int temp[N][N], int p, int q, int n)
+vector<vector<float> > inverse(vector<vector<float> > mat)
 {
-    int i = 0, j = 0;
- 
-    // Looping for each element of the matrix
-    for (int row = 0; row < n; row++)
-    {
-        for (int col = 0; col < n; col++)
-        {
-            //  Copying into temporary matrix only those element
-            //  which are not in given row and column
-            if (row != p && col != q)
-            {
-                temp[i][j++] = A[row][col];
- 
-                // Row is filled, so increase row index and
-                // reset col index
-                if (j == n - 1)
-                {
-                    j = 0;
-                    i++;
-                }
-            }
-        }
-    }
-}
- 
-/* Recursive function for finding determinant of matrix.
-   n is current dimension of A[][]. */
-int determinant(vector<vector<float> > A)//, int n)
-{
-    float D = 0; // Initialize result
- 	
-    //  Base case : if matrix contains single element
-    if (n == 1)
-        return A[0][0];
- 
-    float temp[A.size()][N]; // To store cofactors
- 
-    float sign = 1;  // To store sign multiplier
- 
-     // Iterate for each element of first row
-    for (int f = 0; f < n; f++)
-    {
-        // Getting Cofactor of A[0][f]
-        getCofactor(A, temp, 0, f, n);
-        D += sign * A[0][f] * determinant(temp, n - 1);
- 
-        // terms are to be added with alternate sign
-        sign = -sign;
-    }
- 
-    return D;
-}
- 
-// Function to get adjoint of A[N][N] in adj[N][N].
-void adjoint(int A[N][N],int adj[N][N])
-{
-    if (N == 1)
-    {
-        adj[0][0] = 1;
-        return;
-    }
- 
-    // temp is used to store cofactors of A[][]
-    int sign = 1, temp[N][N];
- 
-    for (int i=0; i<N; i++)
-    {
-        for (int j=0; j<N; j++)
-        {
-            // Get cofactor of A[i][j]
-            getCofactor(A, temp, i, j, N);
- 
-            // sign of adj[j][i] positive if sum of row
-            // and column indexes is even.
-            sign = ((i+j)%2==0)? 1: -1;
- 
-            // Interchanging rows and columns to get the
-            // transpose of the cofactor matrix
-            adj[j][i] = (sign)*(determinant(temp, N-1));
-        }
-    }
-}
- 
-// Function to calculate and store inverse, returns false if
-// matrix is singular
-vector<vector<float> > inverse(vector<vector<float> > A)//, <float> inverse[N][N])
-{
-    // Find determinant of A[][]
-    int det = determinant(A);
-    if (det == 0)
-    {
-        cout << "Singular matrix, can't find its inverse";
-        return NULL;
-    }
- 
-    // Find adjoint
-    float adj[N][N];
-    adjoint(A, adj);
- 
-    // Find Inverse using formula "inverse(A) = adj(A)/det(A)"
-    vector<vector<float> > inverse(A[0].size(),vector<float> (A.size()));
-    for (int i=0; i<A[0].size(); i++)
-        for (int j=0; j<A.size(); j++)
-            inverse[i][j] = adj[i][j]/float(det);
- 
-    return inverse;
-}
+    //cout<<mat[0].size()<<endl;
+	Eigen::MatrixXd v2(mat.size(),mat[0].size());
+	for(int i=0;i<mat.size();i++)
+        for(int j=0;j<mat[0].size();j++)
+            v2(i,j) = mat[i][j];
 
+
+	v2=v2.inverse();
+	//cout<<v2;
+	//cout<<endl;
+	for(int i=0;i<mat.size();i++)
+        for(int j=0;j<mat[0].size();j++)
+             mat[i][j] = v2(i,j) ;
+	return mat;
+}
 
 vector<vector<float> > mat_multiplication(vector<vector<float> > X1,vector<vector<float> > X2)
 {
@@ -147,7 +58,7 @@ vector<vector<float> > mat_multiplication(vector<vector<float> > X1,vector<vecto
 data_structure read_data(string file_location)
 {
 	ifstream trainFile;
-	trainFile.open(file_location);
+	trainFile.open(file_location.c_str());
 	vector<vector<float> > train_data;
 	vector<int> target_class;
 	if(trainFile.is_open())
@@ -164,7 +75,7 @@ data_structure read_data(string file_location)
 				if(s[i]==',')
 				{
 					string temp_float = s.substr(prev,i-prev);
-					prev = i+1;	
+					prev = i+1;
 					temp.push_back(stof(temp_float, NULL));
 				}
 			}
@@ -225,13 +136,13 @@ vector<float> multiply_vec(vector<float> vec, float n)
 	for(int i=0;i<vec.size();i++)
 		vec[i]*=n;
 	return vec;
-} 
+}
 
 vector<vector<float> > multiply_mat(vector<vector<float> > vec, float n)
 {
 	for(int i=0;i<vec.size();i++)
 		vec[i] = multiply_vec(vec[i],n);
-		
+
 	return vec;
 }
 
@@ -289,29 +200,20 @@ params train(data_structure data)
 		{
 			mu2 = vect_add(mu2,X[i]);
 		}
-				
+
 
 	}
-		
+
 
 	mu1 = multiply_vec(mu1,1.0/(float)N1);
 	mu2 = multiply_vec(mu2,1.0/(float)N2);
 
-	//for(int i=0;i<X[0].size();i++)cout<<X[0][i]<<" ";
-	//cout<<X[0].size();
-		//print_mat(convert_2d(X[0]));
 	for(int i=0; i<N; i++)
 	{
 
 		if(target[i]==1)
 		{
-			
-
-			//print_mat(mat_multiplication(convert_2d(X[0]),transpose_vec(X[0])));
 			s1 = mat_add(s1, mat_multiplication(convert_2d(vect_add(X[i], multiply_vec(mu1, -1))), transpose_vec(vect_add(X[i], multiply_vec(mu1, -1)))));
-		
-			//print_mat(s1);
-			//cout<<endl<<endl;
 		}
 		else
 		{
@@ -321,14 +223,39 @@ params train(data_structure data)
 
 	s1 = multiply_mat(s1, 1.0/N1);
 	s2 = multiply_mat(s2, 1.0/N2);
-	//print_mat(s1);
-	//cout<<endl<<N1<<" "<<N2<<endl<<endl;
-	cov = mat_add(multiply_mat(s1,N1/(N1+N2)),multiply_mat(s2,N2/(N1+N2)));
-	//print_mat(cov);
 
+	cov = mat_add(multiply_mat(s1,N1/(N1+N2)),multiply_mat(s2,N2/(N1+N2)));
+	vector<vector<float> > temp1 = inverse(cov);
+	p.w = mat_multiplication(temp1,convert_2d(vect_add(mu1,multiply_vec(mu2, -1))));
+	float term2 = mat_multiplication(mat_multiplication(transpose_mat(convert_2d(mu2)),temp1),convert_2d(mu2))[0][0];
+	float term1 = mat_multiplication(mat_multiplication(transpose_mat(convert_2d(mu1)),temp1),convert_2d(mu1))[0][0];
+	float term3 = log(N1/N2);
+    p.w0 = 0.5*(term2-term1)+term3;
 	return p;
 }
 
+float sigmoid(params p,vector<float> x)
+{
+    float z = -p.w0 - mat_multiplication(convert_2d(x),p.w)[0][0];
+    cout<<"  "<<z<<endl;
+    return 1/(exp(z)+1);
+}
+
+int prediction(vector<float> x,params p)
+{
+    float val = sigmoid(p,x);
+
+    return val>=0.99999 ? 1 : 0;
+}
+
+float accuracy(vector<int> predict,vector<int> actual)
+{
+    float count = 0;
+    for(int i=0;i<predict.size();i++)
+        if(predict[i]==actual[i])
+            count++;
+    return 100*(count/predict.size());
+}
 
 int main()
 {
@@ -336,8 +263,17 @@ int main()
 	data_structure train_data;// = (data_structure)malloc(sizeof(data_structure));
 	train_data = read_data("data/train.txt");
 	params p = train(train_data);
-	Matr
-	//cout<<train_data.features[0][0];
-	
+	data_structure test_data;// = (data_structure)malloc(sizeof(data_structure));
+	test_data = read_data("data/test.txt");
+
+	print_mat(p.w);
+	cout<<endl<<p.w0;
+	vector<int> predictions;
+	for(int i = 0;i<test_data.features.size();i++)
+        predictions.push_back(prediction(test_data.features[i],p));
+    cout<<"Accuracy : "<<accuracy(test_data.target_class,predictions)<<" %"<<endl;
+
+
+
 	return 0;
 }
