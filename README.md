@@ -18,7 +18,7 @@ Recall : 0.972973
 
 Accuracy : 98.7864 % 
 
-**Confusion matrix**
+#### Confusion matrix
 
 | n=412       | Predicted: YES | Predicted: NO |
 |-------------|----------------|---------------|
@@ -34,7 +34,7 @@ Recall : 0.805405
 
 Accuracy : 85.6796 %
 
-Confusion matrix
+#### Confusion matrix
 
 | n=412       | Predicted: YES | Predicted: NO |
 |-------------|----------------|---------------|
@@ -50,7 +50,7 @@ Recall : 1
 
 Accuracy : 99.2718 %
 
-Confusion matrix
+#### Confusion matrix
 
 | n=412       | Predicted: YES | Predicted: NO |
 |-------------|----------------|---------------|
