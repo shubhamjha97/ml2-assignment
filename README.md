@@ -16,13 +16,16 @@ Precision : 1
 
 Recall : 0.972973
 
-Confusion matrix
-
-TN = 227 FP = 0
-
-FN = 5   TP = 180
-
 Accuracy : 98.7864 % 
+
+**Confusion matrix**
+
+| n=412       | Predicted: YES | Predicted: NO |
+|-------------|----------------|---------------|
+| Actual: YES | 180            | 5             |
+| Actual: NO  | 0              | 227           |
+
+
 
 ### 2) Probabilistic Generative Model
 
