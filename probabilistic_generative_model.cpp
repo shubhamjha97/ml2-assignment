@@ -7,16 +7,40 @@ using namespace std;
 
 using Eigen::MatrixXd;
 
+/*
+params : struct
+
+@Attribute w vector<vector<float> >  : w vector of the model
+@Attribute w0 float : w0 bias of the model
+
+*/
 struct params{
 	vector<vector<float> >w;
 	float w0;
 };
 
+
+/*
+data_structure : struct
+
+@Attribute vector<vector<float> > features  : feature matrix of training data
+@Attribute vector<int> target_class			: target class value of given training data
+
+*/
+
 struct data_structure{
-	vector<vector<float> >features;
+	vector<vector<float> > features;
 	vector<int> target_class;
 
 };
+
+
+/* inverse :: function
+	Compute the inverse of given matrix
+
+	@param  : vector<vector<float> > mat :  Matrix whose inverse has to be computed
+	@return : vector<vector<float> > mat : 	Inverse of the given Matrix
+*/
 
 vector<vector<float> > inverse(vector<vector<float> > mat)
 {
@@ -33,6 +57,15 @@ vector<vector<float> > inverse(vector<vector<float> > mat)
              mat[i][j] = v2(i,j) ;
 	return mat;
 }
+
+/* mat_multiplication :: function
+	Compute the mat_multiplication of given matrices
+
+	@param  : vector<vector<float> > X1   :  Matrice whose product has to be computed
+	@param  : vector<vector<float> > X2   :  Matrice whose product has to be computed
+	@return : vector<vector<float> > mult :  Product of Matrices
+
+*/
 
 vector<vector<float> > mat_multiplication(vector<vector<float> > X1,vector<vector<float> > X2)
 {
@@ -51,7 +84,7 @@ vector<vector<float> > mat_multiplication(vector<vector<float> > X1,vector<vecto
 
 }
 
-
+// data structure for holding data features and target class
 data_structure read_data(string file_location)
 {
 	ifstream trainFile;
@@ -89,6 +122,15 @@ data_structure read_data(string file_location)
 	return d;
 }
 
+/* vect_add :: function
+	Compute the vector sum of given vectors
+
+	@param  : vector<vector<float> > mu   :  Vector whose sum has to be computed
+	@param  : vector<vector<float> > x    :  Vector whose sum has to be computed
+	@return : vector<vector<float> > mu   :  Sum of Vectors
+
+*/
+
 vector<float> vect_add(vector<float> mu,vector<float> x)
 {
 	if(mu.size()== x.size())
@@ -109,6 +151,16 @@ vector<vector<float> > vect_add_2(vector<float> mu,vector<float> x)
 	return temp;
 }
 
+/* convert_2d :: function
+	Compute the 1d Vector into a Matrix
+
+	@param  : vector<float>  mu   			:  Vector whose has to be converted into 2d
+
+	@return : vector<vector<float> > temp   :  2d Vector of the given 1d Vector
+
+*/
+
+
 vector<vector<float> > convert_2d(vector<float> mu)
 {
 	vector<vector<float> > temp(mu.size(),vector<float>(1));
@@ -116,6 +168,15 @@ vector<vector<float> > convert_2d(vector<float> mu)
 			temp[i][0]=mu[i];
 	return temp;
 }
+
+/* mat_add :: function
+	Compute the matrix addition of given matrices
+
+	@param  : vector<vector<float> > mu   :  Matrice whose sum has to be computed
+	@param  : vector<vector<float> > x   :  Matrice whose sum has to be computed
+	@return : vector<vector<float> > mu  :  Sum of Matrices
+
+*/
 
 vector<vector<float> > mat_add(vector<vector<float> > mu,vector<vector<float> > x)
 {
@@ -127,12 +188,30 @@ vector<vector<float> > mat_add(vector<vector<float> > mu,vector<vector<float> > 
 	return mu;
 }
 
+/* multiply_vec :: function
+	Multiplying Vector with a Scalor
+
+	@param  : vector<float > vec   	:  vector whose product has to be computed
+	@param  : float n 						:  Scalar Value
+	@return : vector<vector<float> > mult 	:  Product of Vector and Scalor
+
+*/
+
 vector<float> multiply_vec(vector<float> vec, float n)
 {
 	for(int i=0;i<vec.size();i++)
 		vec[i]*=n;
 	return vec;
 }
+
+/* multiply_mat :: function
+	Multiplying Matrix with a Scalor
+
+	@param  : vector<vector<float> > vec   	:  Matrix whose product has to be computed
+	@param  : float n 						:  Scalar Value
+	@return : vector<vector<float> > vec 	:  Product of Matrix and Scalor
+
+*/
 
 vector<vector<float> > multiply_mat(vector<vector<float> > vec, float n)
 {
@@ -141,6 +220,16 @@ vector<vector<float> > multiply_mat(vector<vector<float> > vec, float n)
 
 	return vec;
 }
+
+/* transpose_mat :: function
+	Compute the transpose of given matrices
+
+	@param  : vector<vector<float> > v1   :  Matrice whose transpose has to be computed
+
+	@return : vector<vector<float> > res :   Transposed Matrix
+
+*/
+
 
 vector<vector<float> > transpose_mat(vector<vector<float> > v1)
 {
@@ -152,6 +241,15 @@ vector<vector<float> > transpose_mat(vector<vector<float> > v1)
 	return res;
 }
 
+
+/* 	transpose_vec :: function
+	Compute the transpose of given vector
+
+	@param  : vector<vector<float> > v1   :  Vector whose transpose has to be computed
+
+	@return : vector<vector<float> > res :   Transposed Vector
+
+*/
 vector <vector<float> > transpose_vec(vector<float> v1)
 {
 	vector<vector<float> > res(1, vector <float> (v1.size(), 0));
@@ -159,6 +257,15 @@ vector <vector<float> > transpose_vec(vector<float> v1)
 		res[0][i] = v1[i];
 	return res;
 }
+
+/* 	print_mat :: function
+	Printing the given Matrix
+
+	@param  : vector<vector<float> > vec   :  Matrice whose has to be printed
+
+	@return : void
+
+*/
 
 void print_mat(vector<vector<float> > vec)
 {
@@ -169,6 +276,15 @@ void print_mat(vector<vector<float> > vec)
 		cout<<endl;
 	}
 }
+
+/* train :: function
+	Compute the parameters from the given training data
+
+	@param  : data_structure data   :  Train data having features and target value
+
+	@return : params p 				:  Value of Parameters w and w0
+
+*/
 
 params train(data_structure data)
 {
@@ -229,12 +345,30 @@ params train(data_structure data)
 	return p;
 }
 
+/* 	sigmoid :: function
+	Compute the sigmoid value of product of given parameters and given vector
+
+	@param  : params p   		:  Parameter w and w0
+	@param  : vector<float> x  	:  vector whose product has to be computed
+	@return : float 			:  Sigmoid value of product of input vector and parameter w
+
+*/
+
 float sigmoid(params p,vector<float> x)
 {
     float z = -p.w0 - mat_multiplication(convert_2d(x),p.w)[0][0];
     return 1/(exp(z)+1);
 }
 
+/**
+    Computes the prediction class(0 or 1) of a single data point provided using the threshold value given.
+
+    @param row_vector x: which is a single data point.
+    @param params: that consist of weight values.
+    @param threshold: is the threshold for classification.
+
+    @return Prediction class of data point (0 or 1)
+*/
 int prediction(vector<float> x,params p)
 {
     float val = sigmoid(p,x);
@@ -242,6 +376,14 @@ int prediction(vector<float> x,params p)
     return val>=0.99999 ? 1 : 0;
 }
 
+/**
+    Computes the accuracy of data provided using the prediction and actual values.
+
+    @param predict: contains the prediction values of classes(0 or 1).
+    @param actual: contains the prediction values of classes(0 or 1).
+
+    @return accuracy: of the data.
+*/
 float accuracy(vector<int> predict,vector<int> actual)
 {
     float count = 0;
@@ -251,7 +393,13 @@ float accuracy(vector<int> predict,vector<int> actual)
     return 100*(count/predict.size());
 }
 
+/**
+    Computes and prints precision , recall and Confusion matrix.
 
+    @param predict: contains the prediction values of classes(0 or 1).
+    @param actual: contains the prediction values of classes(0 or 1).
+
+*/
 void metrics(vector<int> actual,vector<int> predict)
 {
     float fp = 0,fn = 0,tp = 0,tn = 0;
@@ -282,14 +430,10 @@ void metrics(vector<int> actual,vector<int> predict)
     confusion_matrix[1][1] = tp;
 
     cout<<"TN = "<<tn<<" FP = "<<fp<<endl<<"FN = "<<fn<<"   TP = "<<tp<<endl;
-
 }
-
-
 
 int main()
 {
-
 	data_structure train_data;
 	train_data = read_data("data/train.txt");
 	params p = train(train_data);
@@ -301,8 +445,6 @@ int main()
         predictions.push_back(prediction(test_data.features[i],p));
     metrics(test_data.target_class,predictions);
     cout<<"Accuracy : "<<accuracy(test_data.target_class,predictions)<<" %"<<endl;
-
-
 
 	return 0;
 }

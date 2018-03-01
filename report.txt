@@ -1,12 +1,12 @@
-# Selected Topics in Computer Science
-## Assignment 1
+Selected Topics in Computer Science
+Assignment 1
 
-### Group Members:
+Group Members:
 Shubham Jha		(2015A3PS0288H)
 Saurabh Khandelwal	(2015A7PS0082H)
 Aditya Desai 		(2015A3PS0211H)
 
-### 1) Fisher's Linear Discriminant Analysis
+1) Fisher's Linear Discriminant Analysis
 
 Threshold: 0.664737
 Precision : 1
@@ -16,7 +16,7 @@ TN = 227 FP = 0
 FN = 5   TP = 180
 Accuracy : 98.7864 % 
 
-### 2) Probabilistic Generative Model
+2) Probabilistic Generative Model
 
 Precision : 0.984043
 Recall : 1
@@ -25,7 +25,7 @@ TN = 224 FP = 3
 FN = 0   TP = 185
 Accuracy : 99.2718 %
 
-### 3) Logistic Regression
+3) Logistic Regression
 
 Precision : 0.866279
 Recall : 0.805405
