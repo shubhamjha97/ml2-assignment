@@ -20,7 +20,6 @@ struct data_structure{
 
 vector<vector<float> > inverse(vector<vector<float> > mat)
 {
-    //cout<<mat[0].size()<<endl;
 	Eigen::MatrixXd v2(mat.size(),mat[0].size());
 	for(int i=0;i<mat.size();i++)
         for(int j=0;j<mat[0].size();j++)
@@ -28,8 +27,7 @@ vector<vector<float> > inverse(vector<vector<float> > mat)
 
 
 	v2=v2.inverse();
-	//cout<<v2;
-	//cout<<endl;
+
 	for(int i=0;i<mat.size();i++)
         for(int j=0;j<mat[0].size();j++)
              mat[i][j] = v2(i,j) ;
@@ -45,7 +43,6 @@ vector<vector<float> > mat_multiplication(vector<vector<float> > X1,vector<vecto
         for (j = 0; j < X2[0].size(); j++)
         {
             mult[i][j] = 0;
-            //cout<<i<<" "<<j<<endl;
             for (k = 0; k < X1[0].size(); k++)
                 mult[i][j] += X1[i][k]*X2[k][j];
         }
@@ -117,7 +114,6 @@ vector<vector<float> > convert_2d(vector<float> mu)
 	vector<vector<float> > temp(mu.size(),vector<float>(1));
 	for(int i=0; i<mu.size(); i++)
 			temp[i][0]=mu[i];
-	//cout<<"asd";
 	return temp;
 }
 
@@ -161,7 +157,6 @@ vector <vector<float> > transpose_vec(vector<float> v1)
 	vector<vector<float> > res(1, vector <float> (v1.size(), 0));
 	for(int i=0; i<v1.size(); i++)
 		res[0][i] = v1[i];
-	//cout<<"Calling Function"<<endl<<endl;
 	return res;
 }
 
@@ -237,7 +232,6 @@ params train(data_structure data)
 float sigmoid(params p,vector<float> x)
 {
     float z = -p.w0 - mat_multiplication(convert_2d(x),p.w)[0][0];
-    cout<<"  "<<z<<endl;
     return 1/(exp(z)+1);
 }
 
@@ -257,20 +251,55 @@ float accuracy(vector<int> predict,vector<int> actual)
     return 100*(count/predict.size());
 }
 
+
+void metrics(vector<int> actual,vector<int> predict)
+{
+    float fp = 0,fn = 0,tp = 0,tn = 0;
+    for(int i=0;i<predict.size();i++)
+        if(predict[i]== (int) actual[i])
+        {
+            if((int)actual[i]==0)
+                tn++;
+            else
+                tp++;
+        }
+        else
+        {
+            if((int)actual[i]==0)
+                fp++;
+            else
+                fn++;
+        }
+
+    cout<<"Precision : " << tp/(tp+fp)<<endl;
+    cout<<"Recall : " << tp/(tp+fn)<<endl;;
+
+    cout<<"Confusion matrix"<<endl;
+    int confusion_matrix[2][2];
+    confusion_matrix[0][0] = tn;
+    confusion_matrix[0][1] = fp;
+    confusion_matrix[1][0] = fn;
+    confusion_matrix[1][1] = tp;
+
+    cout<<"TN = "<<tn<<" FP = "<<fp<<endl<<"FN = "<<fn<<"   TP = "<<tp<<endl;
+
+}
+
+
+
 int main()
 {
 
-	data_structure train_data;// = (data_structure)malloc(sizeof(data_structure));
+	data_structure train_data;
 	train_data = read_data("data/train.txt");
 	params p = train(train_data);
-	data_structure test_data;// = (data_structure)malloc(sizeof(data_structure));
+	data_structure test_data;
 	test_data = read_data("data/test.txt");
 
-	print_mat(p.w);
-	cout<<endl<<p.w0;
 	vector<int> predictions;
 	for(int i = 0;i<test_data.features.size();i++)
         predictions.push_back(prediction(test_data.features[i],p));
+    metrics(test_data.target_class,predictions);
     cout<<"Accuracy : "<<accuracy(test_data.target_class,predictions)<<" %"<<endl;
 
 
