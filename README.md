@@ -1,13 +1,8 @@
 # Selected Topics in Computer Science
 ## Assignment 1
 
-### Group Members:
-Shubham Jha		(2015A3PS0288H)
-
-Saurabh Khandelwal	(2015A7PS0082H)
-
-Aditya Desai 		(2015A3PS0211H)
-
+Implementation of various classification on the "banknote authentication Data Set".
+The dataset can be found (here)[https://archive.ics.uci.edu/ml/datasets/banknote+authentication].
 ### 1) Fisher's Linear Discriminant Analysis
 
 Threshold: 0.664737
@@ -20,10 +15,10 @@ Accuracy : 98.7864 %
 
 #### Confusion matrix
 
-| n=412       | Predicted: YES | Predicted: NO |
+| n=412       | Predicted: POSITIVE | Predicted: NEGATIVE |
 |-------------|----------------|---------------|
-| Actual: YES | 180            | 5             |
-| Actual: NO  | 0              | 227           |
+| Actual: POSITIVE | 180            | 5             |
+| Actual: NEGATIVE  | 0              | 227           |
 
 
 ### 2) Probabilistic Generative Model
@@ -36,10 +31,10 @@ Accuracy : 85.6796 %
 
 #### Confusion matrix
 
-| n=412       | Predicted: YES | Predicted: NO |
+| n=412       | Predicted: POSITIVE | Predicted: NEGATIVE |
 |-------------|----------------|---------------|
-| Actual: YES | 149            | 36            |
-| Actual: NO  | 23             | 204           |
+| Actual: POSITIVE | 149            | 36            |
+| Actual: NEGATIVE  | 23             | 204           |
 
 
 ### 3) Logistic Regression
@@ -52,7 +47,14 @@ Accuracy : 99.2718 %
 
 #### Confusion matrix
 
-| n=412       | Predicted: YES | Predicted: NO |
+| n=412       | Predicted: POSITIVE | Predicted: NEGATIVE |
 |-------------|----------------|---------------|
-| Actual: YES | 185            | 0             |
-| Actual: NO  | 3              | 224           |
+| Actual: POSITIVE | 185            | 0             |
+| Actual: NEGATIVE  | 3              | 224           |
+
+### Group Members:
+Shubham Jha		(2015A3PS0288H)
+
+Saurabh Khandelwal	(2015A7PS0082H)
+
+Aditya Desai 		(2015A3PS0211H)
