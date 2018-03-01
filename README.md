@@ -2,7 +2,7 @@
 ## Assignment 1
 
 Implementation of various classification on the "banknote authentication Data Set".
-The dataset can be found (here)[https://archive.ics.uci.edu/ml/datasets/banknote+authentication].
+The dataset can be found [here](https://archive.ics.uci.edu/ml/datasets/banknote+authentication).
 ### 1) Fisher's Linear Discriminant Analysis
 
 Threshold: 0.664737
@@ -53,8 +53,8 @@ Accuracy : 99.2718 %
 | Actual: NEGATIVE  | 3              | 224           |
 
 ### Group Members:
-Shubham Jha		(2015A3PS0288H)
+[Shubham Jha](http://github.com/shubhamjha97/)		(2015A3PS0288H)
 
-Saurabh Khandelwal	(2015A7PS0082H)
+[Saurabh Khandelwal](https://github.com/stgstg27)	(2015A7PS0082H)
 
-Aditya Desai 		(2015A3PS0211H)
+[Aditya Desai](https://github.com/desai-aditya) 		(2015A3PS0211H)
