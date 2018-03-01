@@ -1,7 +1,7 @@
 # Selected Topics in Computer Science
 ## Assignment 1
 
-Implementation of various classification on the "banknote authentication Data Set".
+Implementation of various classification algorithms on the "banknote authentication Data Set".
 The dataset can be found [here](https://archive.ics.uci.edu/ml/datasets/banknote+authentication).
 ### 1) Fisher's Linear Discriminant Analysis
 
