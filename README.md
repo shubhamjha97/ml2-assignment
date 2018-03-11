@@ -2,7 +2,7 @@
 
 Course Assignment for CS F441- Selected Topics from Computer Science @ BITS Pilani, Hyderabad Campus.
 
-Done under the guidance of Prof. N.L. Bhanu Murthy, Associate Professor, BITS Pilani, Hyderabad Campus.
+Done under the guidance of Dr. N.L. Bhanu Murthy, Associate Professor, BITS Pilani, Hyderabad Campus.
 
 ## Assignment 1
 
